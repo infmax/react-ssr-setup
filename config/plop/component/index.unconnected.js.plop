@@ -1,0 +1,4 @@
+import { withTranslation } from 'react-i18next';
+import {{pascalCase componentName}} from './{{pascalCase componentName}}';
+
+export default withTranslation()({{pascalCase componentName}});
