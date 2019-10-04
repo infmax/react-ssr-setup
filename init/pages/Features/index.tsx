@@ -1,12 +1,23 @@
 import React from 'react'
-import {useTranslation} from 'react-i18next'
 import css from './Features.module.css'
+import {connect} from "react-redux"
+import {setLocale} from '../../store/app/actions'
+import {Link} from "react-router-dom"
 
-const Features = () => {
-    const {t} = useTranslation()
+const Features = (props: any) => {
+    React.useEffect(() => {
+        props.setLocale()
+    }, [])
+
+    const {feature} = props
+
     return (
         <React.Fragment>
-            <h2>{t('features')}</h2>
+            <h2>{('features')}</h2>
+
+            <div>
+                <Link className={css.addLink} to={'feature/new'}>Add feature</Link>
+            </div>
             <ul className={css.wrapper}>
                 <li className={css.react}>React 16.x (latest)</li>
                 <li className={css.webpack}>Webpack 4</li>
@@ -15,7 +26,6 @@ const Features = () => {
                 <li className={css.hot}>TypeScript (using Babel 7)</li>
                 <li className={css.jest}>Jest 24</li>
                 <li className={css.rtl}>React Testing Library</li>
-                <li className={css.i18n}>{t('i18n-support')}</li>
                 <li>React Router 5</li>
                 <li>Redux (+ Thunk)</li>
                 <li>Immer</li>
@@ -26,9 +36,12 @@ const Features = () => {
                 <li>PostCSS</li>
                 <li>Prettier (incl. precommit-hook via lint-staged + husky)</li>
                 <li>HMR</li>
+                {feature.map((f, idx) => <li key={`feature-${idx}`}>{f.name}</li>)}
             </ul>
         </React.Fragment>
     )
 }
 
-export default {component: Features}
+const mapStateToProps = ({feature}) => ({feature})
+
+export default {component: connect(mapStateToProps, {setLocale})(Features)}
