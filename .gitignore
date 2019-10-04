@@ -19,4 +19,3 @@ bundle-stats.json
 .idea
 
 yarn.lock
-src/shared/*
