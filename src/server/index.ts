@@ -26,7 +26,7 @@ app.use(
     proxy(config.backend_url, {
         limit: "100mb",
         proxyReqOptDecorator(opts: any) {
-            opts.headers['x-forwarded-host'] = 'localhost:' + config.port
+            opts.headers['x-forwarded-host'] = 'localhost:' + (process.env.PORT || 8500)
             return opts
         }
     })
