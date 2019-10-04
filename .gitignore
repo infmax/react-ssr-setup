@@ -17,3 +17,6 @@ bundle-stats.json
 .vscode
 /dependency-graph.svg
 .idea
+
+yarn.lock
+src/shared/*

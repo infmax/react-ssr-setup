@@ -5,31 +5,52 @@ import {StaticRouter} from 'react-router-dom'
 import {Store} from 'redux'
 import {Provider} from 'react-redux'
 import {HelmetProvider} from 'react-helmet-async'
-import IntlProvider from '../../shared/i18n/IntlProvider'
 import Html from '../components/HTML'
 import {renderRoutes} from 'react-router-config'
 import Routes from "Routes"
+import {matchRoutes} from 'react-router-config'
 
 const helmetContext = {}
-const routerContext = {}
+const routerContext: any = {}
 
-const serverRenderer: any = (
+const serverRenderer: any = async (
     req: express.Request & { store: Store },
     res: express.Response
 ) => {
+
+    const store = res.locals.store
+
+    const promises = matchRoutes(Routes, req.path)
+        .map(({route}) => route.loadData ? route.loadData(store) : null)
+        .map(promise => {
+            if (promise) {
+                return new Promise((resolve) => {
+                    promise.then(resolve).catch(resolve)
+                })
+            }
+        })
+
+    await Promise.all(promises)
+
+
     const content = renderToString(
-        <Provider store={res.locals.store}>
+        <Provider store={store}>
             <StaticRouter location={req.path} context={routerContext}>
-                <IntlProvider>
-                    <HelmetProvider context={helmetContext}>
-                        <div>{renderRoutes(Routes)}</div>
-                    </HelmetProvider>
-                </IntlProvider>
+                <HelmetProvider context={helmetContext}>
+                    <div>{renderRoutes(Routes)}</div>
+                </HelmetProvider>
             </StaticRouter>
         </Provider>
     )
 
     const state = JSON.stringify(res.locals.store.getState())
+
+    if (routerContext.url) {
+        return res.redirect(301, routerContext.url)
+    }
+    if (routerContext.notFound) {
+        res.status(404)
+    }
 
     return res.send(
         '<!doctype html>' +

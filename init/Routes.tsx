@@ -1,6 +1,5 @@
 import App from './App'
-import Features from "pages/Features"
-import NotFoundPage from "pages/NotFoundPage"
+import Features from "../src/shared/pages/Features"
 
 export default [
     {
@@ -11,9 +10,6 @@ export default [
                 path: '/',
                 exact: true
             },
-            {
-                ...NotFoundPage
-            }
         ]
     }
 ]

@@ -66,7 +66,7 @@ module.exports = (plop) => {
             const actions = [
                 {
                     type: 'pretty-add',
-                    path: './src/shared/store/{{camelCase reducerName}}/actions.ts',
+                    path: './src/shared/store/{{camelCase reducerName}}/actions.js',
                     templateFile: './config/plop/reducer/actions.js.plop',
                 },
                 {

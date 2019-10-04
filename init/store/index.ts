@@ -5,10 +5,9 @@ import createRootReducer from './rootReducer'
 type StoreParams = {
     initialState?: { [key: string]: any };
     middleware?: any[];
-    axiosInstance?: any
 };
 
-export const configureStore = ({initialState, middleware = [], axiosInstance}: StoreParams) => {
+export const configureStore = ({initialState, middleware = []}: StoreParams) => {
     const devtools =
         typeof window !== 'undefined' &&
         typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ === 'function' &&
@@ -19,9 +18,8 @@ export const configureStore = ({initialState, middleware = [], axiosInstance}: S
     const store = createStore(
         createRootReducer(),
         initialState,
-        composeEnhancers(applyMiddleware(...[thunk.withExtraArgument(axiosInstance)].concat(...middleware)))
+        composeEnhancers(applyMiddleware(...[thunk].concat(...middleware)))
     )
-
 
     if (process.env.NODE_ENV !== 'production') {
         if (module.hot) {
