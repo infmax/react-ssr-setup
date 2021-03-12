@@ -148,7 +148,7 @@
     "postcss-normalize": "^8.0.1",
     "prettier": "^1.18.2",
     "puppeteer": "^1.19.0",
-    "react-dev-utils": "^9.0.3",
+    "react-dev-utils": "^11.0.4",
     "redux-mock-store": "^1.5.3",
     "regenerator-runtime": "^0.13.2",
     "rimraf": "^3.0.0",
